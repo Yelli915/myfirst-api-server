@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: sk244-myapp-kustomize
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io/foreground
+spec:
+  destination:
+    namespace: class-8
+    server: https://kubernetes.default.svc
+  project: class-8
+  source:
+    path: kustomize/overlays/dev
+    repoURL: https://github.com/yelli915/myfirst-api-server.git
+    targetRevision: gitops        # 예: HEAD, main, gitops 등
+    kustomize: {}
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - PrunePropagationPolicy=background

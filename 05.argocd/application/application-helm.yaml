@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: sk244-myapp-helm
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io/foreground
+spec:
+  destination:
+    namespace: class-8
+    server: https://kubernetes.default.svc
+  project: class-8
+  source:
+    repoURL: https://github.com/yelli915/myfirst-api-server.git
+    targetRevision: HEAD
+    path: .
+    helm:
+      valueFiles:
+        - custom-values.yaml
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - PrunePropagationPolicy=background
