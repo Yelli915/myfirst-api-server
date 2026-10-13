@@ -19,4 +19,4 @@ patches:
 images:
 - name: skala-registry.skala-ai.com/class-8/sk244-webserver
   newName: skala-registry.skala-ai.com/class-8/sk244-webserver
-  newTag: 1.0-dk9-59f8dcc
+  newTag: 1.0-dk10-b487cf3
