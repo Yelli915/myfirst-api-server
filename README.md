@@ -1,1 +1,1 @@
-sample code for devops
+눈을 떠라
