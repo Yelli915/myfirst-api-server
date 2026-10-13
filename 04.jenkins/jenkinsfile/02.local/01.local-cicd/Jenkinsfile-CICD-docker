@@ -6,6 +6,7 @@ pipeline {
     GIT_URL                = 'https://github.com/yelli915/myfirst-api-server.git'
     GIT_BRANCH             = 'main'            // 또는 main
     GIT_ID                 = 'skala-github-id'   // GitHub PAT credential ID
+    APP_DIR                = '01.spring-backend-v1.0'  // 레포 안 앱 경로
     IMAGE_NAME             = 'sk244-webserver'
     // =======================
     IMAGE_TAG              = '1.0'
@@ -34,7 +35,7 @@ pipeline {
     stage('Build with Maven') {
       steps {
         echo 'Build with Maven'
-        sh 'mvn clean package -DskipTests'
+        sh 'cd "${APP_DIR}" && mvn clean package -DskipTests'
         sh 'ls -al'
       }
     }
@@ -49,6 +50,7 @@ pipeline {
         )]) {
         sh '''
             set -eux
+            cd "${APP_DIR}"
             REG_HOST="${IMAGE_REGISTRY_URL}"
             FINAL_IMAGE_TAG="${IMAGE_TAG}-${BUILD_NUMBER}"
             IMAGE_REF="${IMAGE_REGISTRY_URL}/${IMAGE_REGISTRY_PROJECT}/${IMAGE_NAME}:${FINAL_IMAGE_TAG}"
@@ -73,6 +75,7 @@ pipeline {
       steps {
         sh '''
           set -eux
+          cd "${APP_DIR}"
           test -d ./kustomize/overlays/dev
           cd ./kustomize/overlays/dev
 
@@ -94,6 +97,7 @@ pipeline {
       steps {
         sh '''
           set -eux
+          cd "${APP_DIR}"
 
           FINAL_IMAGE_TAG="${IMAGE_TAG}-${BUILD_NUMBER}"
           IMAGE_BASE="${IMAGE_REGISTRY_URL}/${IMAGE_REGISTRY_PROJECT}/${IMAGE_NAME}"
