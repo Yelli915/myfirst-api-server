@@ -6,6 +6,7 @@ pipeline {
     GIT_URL                = 'https://github.com/yelli915/myfirst-api-server.git'
     GIT_BRANCH             = 'main'            // 또는 main
     GIT_ID                 = 'skala-github-id'   // GitHub PAT credential ID
+    APP_DIR                = '01.spring-backend-v1.0'  // 레포 안 앱 경로
     IMAGE_NAME             = 'sk244-webserver'
     // =======================
     IMAGE_TAG              = '1.0'
@@ -15,7 +16,7 @@ pipeline {
     DOCKER_CREDENTIAL_ID   = 'skala-image-registry-id'  // Harbor 인증 정보 ID
     K8S_NAMESPACE          = 'class-8'
     GITOPS_BRANCH          = 'gitops'
-    GITOPS_MANIFEST_DIR    = 'kustomize/overlays/dev'
+    GITOPS_MANIFEST_DIR    = '01.spring-backend-v1.0/kustomize/overlays/dev'
   }
 
   options {
@@ -35,7 +36,7 @@ pipeline {
     stage('Build with Maven') {
       steps {
         echo 'Build with Maven'
-        sh 'mvn clean package -DskipTests'
+        sh 'cd "${APP_DIR}" && mvn clean package -DskipTests'
         sh 'ls -al'
       }
     }
@@ -63,7 +64,7 @@ pipeline {
             echo "$REG_PASS" | docker login -u "$REG_USER" --password-stdin "$REG_HOST"
 
             # 2. 빌드 + 푸시 (buildx build --push는 별도 push 단계 없이 한 번에 수행)
-            docker buildx build --platform "linux/amd64" -t "${IMAGE_REF}" --push .
+            docker buildx build --platform "linux/amd64" -t "${IMAGE_REF}" --push "${APP_DIR}"
 
             # 3. 정리
             docker rmi "${IMAGE_REF}" || true
