@@ -9,6 +9,7 @@ docker run -d \
   -v $(pwd)/jenkins_home:/var/jenkins_home \
   -v $(pwd)/jenkins.yaml:/var/jenkins_config/jenkins.yaml \
   -v /var/run/docker.sock:/var/run/docker.sock \
+  -v $HOME/.kube/config:/usr/share/jenkins/ref/kube-config:ro \
   -e CASC_JENKINS_CONFIG=/var/jenkins_config/jenkins.yaml \
   -e JAVA_OPTS="-Djenkins.install.runSetupWizard=false" \
   -e BUILDAH_ISOLATION=chroot \

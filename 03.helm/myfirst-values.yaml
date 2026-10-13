@@ -1,0 +1,9 @@
+replicaCount: 1
+image:
+  repository: skala-registry.skala-ai.com/class-8/sk244-webserver
+  tag: "1.0.kaniko-pod"
+livenessProbe: null
+readinessProbe: null
+startupProbe: null
+service:
+  port: 8080

@@ -34,3 +34,14 @@ dist
 # 대용량 파일 제외 (GitHub 100MB 제한 초과)
 **/jenkins_home/*
 !jenkins_home/.gitkeep
+
+# Gradle 캐시
+.gradle/
+
+# 개인 정보 / 인증 정보 (PAT, 레지스트리 비밀번호)
+02.build-platform/auth/
+02.build-platform/kaniko.properties
+04.jenkins/jenkins.yaml
+04.jenkins/k8s/03-configmap.yaml
+05.argocd/repo/git-repository.yaml
+05.argocd/repo/helm-git-repository.yaml
